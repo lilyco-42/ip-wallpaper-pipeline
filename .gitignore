@@ -1,0 +1,22 @@
+# secrets
+.env
+*.env
+
+# generated images (large)
+raw/
+out/
+pub/
+*_4k.jpg
+*_pub.jpg
+
+# local packs (not part of repo)
+ip_wallpaper_pack/
+wallpaper_pack/
+merch_pack/
+idol_chibi_pack/
+
+# system
+.DS_Store
+Thumbs.db
+__pycache__/
+*.pyc
