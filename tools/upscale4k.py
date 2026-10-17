@@ -54,11 +54,21 @@ def to_4k_keep_ratio(src, dst, max_side=3840):
     out.save(dst, "JPEG", quality=95, subsampling=0)
     print(f"ratio4k: {dst} {out.size}")
 
+def selftest(dst):
+    """Replayable smoke test: synthetic 1080x1920 -> 2160x3840 4K wallpaper."""
+    import tempfile
+    tmp = os.path.join(tempfile.gettempdir(), "mpkg_selftest_in.png")
+    Image.new("RGB", (1080, 1920), (120, 80, 200)).save(tmp)
+    to_wallpaper_4k(tmp, dst)
+    os.remove(tmp)
+
 if __name__ == "__main__":
     src = sys.argv[1]
     dst = sys.argv[2]
     mode = sys.argv[3] if len(sys.argv) > 3 else "wallpaper"
-    if mode == "wallpaper":
+    if mode == "selftest":
+        selftest(dst)
+    elif mode == "wallpaper":
         to_wallpaper_4k(src, dst)
     elif mode == "square":
         to_square_4k(src, dst)

@@ -1,0 +1,79 @@
+{
+  "mpkg": "0.1",
+  "name": "ip-wallpaper-pipeline",
+  "version": "0.1.1",
+  "intent": "热门IP二次元手机壁纸数字商品流水线：GPT/Gemini 点名生成 → 本地 4K 放大 → 闲鱼¥7.7上架 + 小红书引流 + 夸克网盘永久分享供粉丝下载原图，零边际成本批量铺货",
+  "requirements": {
+    "tools": [
+      {
+        "name": "python",
+        "min_version": "3.8"
+      },
+      {
+        "name": "kuake",
+        "min_version": "1.5.0",
+        "note": "夸克网盘 CLI，见 tools/kuake_upload.ps1 与 README"
+      }
+    ]
+  },
+  "steps": [
+    {
+      "run": "python -m py_compile tools/upscale4k.py tools/make_pub.py",
+      "expect": {
+        "exit": 0
+      },
+      "note": "核心脚本语法可编译"
+    },
+    {
+      "run": "python tools/upscale4k.py x dist/selftest_4k.jpg selftest",
+      "expect": {
+        "exit": 0,
+        "exists": "dist/selftest_4k.jpg"
+      },
+      "note": "自检：合成测试图转 2160x3840 4K 壁纸，无需外部素材"
+    }
+  ],
+  "verify": [
+    "python -m py_compile tools/upscale4k.py tools/make_pub.py"
+  ],
+  "atoms": [
+    {
+      "key": "gpt-wallpaper-prompt",
+      "text": "GPT 生图模板：'{角色} from Genshin Impact, official game art style, dynamic pose, detailed, no text'；被拦时换非萝莉成年角色，去掉 girl/little/young 等词"
+    },
+    {
+      "key": "4k-upscale",
+      "text": "upscale4k.py：Lanczos + UnsharpMask，wallpaper 模式裁 9:16 出 2160x3840 q95，square 模式裁中心方形出 3840x3840；make_pub.py 另出 1080px 上传预览版"
+    },
+    {
+      "key": "goofish-listing",
+      "text": "闲鱼：分类=电子资料，¥7.7/原价12，描述以 '4K超清热门游戏人气角色手机壁纸图集' 开头，2张图=主图位(145,330)+缩略图位(235,330)；实物类目网页版不支持（需APP）"
+    },
+    {
+      "key": "xhs-note",
+      "text": "小红书 Lilyco42：标题≤20字，正文带 #原神 #壁纸 #手机壁纸 #4k壁纸 #手机壳 #二次元；发布按钮在编辑页右下角"
+    },
+    {
+      "key": "quark-share",
+      "text": "夸克网盘：kuake CLI 登录（KUAKE_COOKIE 环境变量，cookie 约13天过期需重导）；上传后用网页右键重命名+永久分享不需要提取码，如 https://pan.quark.cn/s/f9e8e8b9ddf5"
+    },
+    {
+      "key": "blocked-ip",
+      "text": "ChatGPT 内容拦截黑名单：宝可梦/Pikachu、K-pop 真人、Christmas、萝莉角色（如纳西妲）→ 换特征版描述或走 Gemini"
+    }
+  ],
+  "tags": [
+    "wallpaper",
+    "genshin",
+    "ip",
+    "4k",
+    "digital-goods",
+    "monetization",
+    "goofish",
+    "xiaohongshu",
+    "quark",
+    "dalle",
+    "gemini"
+  ],
+  "license": "MIT"
+}

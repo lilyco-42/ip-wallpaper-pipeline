@@ -6,6 +6,7 @@
 raw/
 out/
 pub/
+dist/
 *_4k.jpg
 *_pub.jpg
 
